@@ -6,6 +6,7 @@ use App\Models\Animal;
 use App\Models\Breed;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Treatment;
 
 class AnimalController extends Controller
 {
@@ -61,14 +62,18 @@ class AnimalController extends Controller
     // Exibe os detalhes de um animal específico
     public function show(Animal $animal)
     {
-        // Garante que o usuário só visualize seus próprios animais
+        // Garante que o usuário só veja os tratamentos do seu próprio animal
         if ($animal->user_id !== auth()->id()) {
             abort(403);
         }
         $animal->load('breed');
-
+        $treatments = Treatment::with('treatmentType')
+            ->where('animal_id', $animal->id)
+            ->get();
+    
         return Inertia::render('Animals/Show', [
             'animal' => $animal,
+            'treatments' => $treatments,
         ]);
     }
 

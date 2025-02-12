@@ -118,6 +118,12 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             Cadastrar Animal
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('animal-health')}
+                            active={route().current('animal-health')}
+                        >
+                            Saúde Animal
+                        </ResponsiveNavLink>
                     </div>
                     <div className="border-t border-gray-200 pb-1 pt-4">
                         <div className="px-4">

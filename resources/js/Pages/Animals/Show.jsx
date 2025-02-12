@@ -1,54 +1,107 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
+import Modal from '@/Components/Modal';
 
-export default function Show({ animal }) {
+export default function Show({ animal, treatments = [] }) {
+    const [showProcedures, setShowProcedures] = useState(false);
+
     return (
         <>
             <Head title={animal.name} />
             <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded">
                 <h1 className="text-3xl font-bold mb-4">{animal.name}</h1>
-                <p>
-                    <strong>Raça:</strong> {animal.breed.name}
-                </p>
-                <p>
-                    <strong>Data de Nascimento:</strong> {animal.birth_date}
-                </p>
-                <p>
-                    <strong>Pai:</strong> {animal.father}
-                </p>
-                <p>
-                    <strong>Mãe:</strong> {animal.mother}
-                </p>
-                <p>
-                    <strong>Prole:</strong> {animal.progeny}
-                </p>
-                <div className="mt-4">
+                <div className="space-y-2">
+                    <p>
+                        <strong>Raça:</strong> {animal.breed.name}
+                    </p>
+                    <p>
+                        <strong>Data de Nascimento:</strong> {new Date(animal.birth_date).toLocaleDateString()}
+                    </p>
+                    <p>
+                        <strong>Pai:</strong> {animal.father}
+                    </p>
+                    <p>
+                        <strong>Mãe:</strong> {animal.mother}
+                    </p>
+                    <p>
+                        <strong>Prole:</strong> {animal.progeny || 'Não informada'}
+                    </p>
+                </div>
+
+                <div className="mt-6">
                     <h2 className="text-xl font-semibold mb-2">Fotos</h2>
-                    <div className="grid grid-cols-2 gap-4">
-                        {animal.photos && animal.photos.length > 0 ? (
-                            animal.photos.map((photo, index) => (
+                    {animal.photos && animal.photos.length > 0 ? (
+                        <div className="grid grid-cols-2 gap-4">
+                            {animal.photos.map((photo, index) => (
                                 <img
                                     key={index}
                                     src={`/storage/${photo}`}
                                     alt={`Foto ${index + 1}`}
                                     className="object-cover rounded"
                                 />
-                            ))
-                        ) : (
-                            <p>Sem fotos</p>
-                        )}
-                    </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>Sem fotos</p>
+                    )}
                 </div>
-                {/* Botão para voltar ao Dashboard */}
-                <div className="mt-6">
+
+                <div className="mt-6 flex justify-between items-center">
                     <Link
                         href={route('dashboard')}
-                        className="inline-block py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                        className="py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
                     >
                         Voltar ao Dashboard
                     </Link>
+                    <button
+                        onClick={() => setShowProcedures(true)}
+                        className="py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700"
+                    >
+                        Ver Procedimentos
+                    </button>
                 </div>
             </div>
+
+            {/* Modal para exibir os procedimentos */}
+            <Modal show={showProcedures} onClose={() => setShowProcedures(false)}>
+                <div className="p-4">
+                    <h2 className="text-xl font-semibold mb-4">Procedimentos de {animal.name}</h2>
+                    {treatments && treatments.length > 0 ? (
+                        <div className="space-y-4 max-h-96 overflow-y-auto">
+                            {treatments.map((treatment) => (
+                                <div key={treatment.id} className="border rounded p-4">
+                                    <p>
+                                        <strong>Tipo:</strong> {treatment.treatment_type.name}
+                                    </p>
+                                    <p>
+                                        <strong>Data:</strong> {new Date(treatment.date).toLocaleDateString()}
+                                    </p>
+                                    <p>
+                                        <strong>Detalhes:</strong>
+                                    </p>
+                                    {treatment.details ? (
+                                        <p className="text-sm">
+                                            {treatment.details.type || treatment.details.procedimento || 'Sem detalhes'}
+                                        </p>
+                                    ) : (
+                                        <p className="text-sm">Sem detalhes</p>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>Não há procedimentos cadastrados para este animal.</p>
+                    )}
+                    <div className="mt-4 flex justify-end">
+                        <button
+                            onClick={() => setShowProcedures(false)}
+                            className="py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600"
+                        >
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </>
     );
 }
