@@ -18,7 +18,6 @@ export default function Dashboard({ animals }) {
             <Head title="Dashboard" />
             {/* Envolva o conteúdo em um container consistente */}
             <Container>
-                <DashboardMessage />
                 <AnimalsCarousel animals={animals} />
             </Container>
         </AuthenticatedLayout>
