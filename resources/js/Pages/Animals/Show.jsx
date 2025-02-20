@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import Modal from '@/Components/Modal';
 
-export default function Show({ animal, treatments = [] }) {
+export default function Show({ animal, treatments = [], reproductionActivities = [] }) {
     const [showProcedures, setShowProcedures] = useState(false);
+    const [showReproductions, setShowReproductions] = useState(false);
 
     return (
         <>
@@ -59,6 +60,12 @@ export default function Show({ animal, treatments = [] }) {
                     >
                         Ver Procedimentos
                     </button>
+                    <button
+                        onClick={() => setShowReproductions(true)}
+                        className="py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    >
+                        Ver Reproduções
+                    </button>
                 </div>
             </div>
 
@@ -100,6 +107,26 @@ export default function Show({ animal, treatments = [] }) {
                             Fechar
                         </button>
                     </div>
+                </div>
+            </Modal>
+
+            {/* Modal para exibir as reproduções*/}
+            <Modal show={showReproductions} onClose={() => setShowReproductions(false)}>
+                <div className="p-4">
+                    <h2 className="text-xl font-semibold mb-4">Reproduções de {animal.name}</h2>
+                    {
+                        reproductionActivities && reproductionActivities.length > 0 && (
+                            <div className="mt-6 bg-white p-4 rounded shadow">
+                                <h2 className="text-xl font-bold mb-2">Atividades de Reprodução</h2>
+                                {reproductionActivities.map((rep) => (
+                                    <div key={rep.id} className="border rounded p-2 mb-2">
+                                        <p><strong>Tipo:</strong> {rep.type}</p>
+                                        <p><strong>Data:</strong> {rep.date ? new Date(rep.date).toLocaleDateString() : '—'}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    }
                 </div>
             </Modal>
         </>

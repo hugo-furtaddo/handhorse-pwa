@@ -124,6 +124,12 @@ export default function AuthenticatedLayout({ header, children }) {
                         >
                             Saúde Animal
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route('reproduction.store')}
+                            active={route().current('reproduction.store')}
+                        >
+                            Reprodução
+                        </ResponsiveNavLink>
                     </div>
                     <div className="border-t border-gray-200 pb-1 pt-4">
                         <div className="px-4">

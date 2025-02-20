@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Animal;
+use App\Http\Controllers\ReproductionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/animal-health', [TreatmentController::class, 'index'])->name('animal-health');
     Route::post('/treatments', [TreatmentController::class, 'store'])->name('treatments.store');
+
+    Route::get('/reproduction', [ReproductionController::class, 'index'])->name('reproduction.index');
+    Route::post('/reproduction', [ReproductionController::class, 'store'])->name('reproduction.store');
 });
 
 // Rotas de autenticação (login, registro, etc.)

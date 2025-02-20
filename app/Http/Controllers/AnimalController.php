@@ -7,6 +7,7 @@ use App\Models\Breed;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Treatment;
+use App\Models\Reproduction;
 
 class AnimalController extends Controller
 {
@@ -62,20 +63,33 @@ class AnimalController extends Controller
     // Exibe os detalhes de um animal específico
     public function show(Animal $animal)
     {
-        // Garante que o usuário só veja os tratamentos do seu próprio animal
         if ($animal->user_id !== auth()->id()) {
             abort(403);
         }
-        $animal->load('breed');
-        $treatments = Treatment::with('treatmentType')
-            ->where('animal_id', $animal->id)
+        $animal->load(['breed']);
+    
+        // Filtra reproductions onde esse $animal aparece
+        $reproductionActivities = Reproduction::with('egua','cavalo','doadora','receptor','animal','pai')
+            ->where('user_id', auth()->id())
+            ->where(function($query) use ($animal) {
+                $query->where('egua_id', $animal->id)
+                    ->orWhere('cavalo_id', $animal->id)
+                    ->orWhere('doadora_id', $animal->id)
+                    ->orWhere('receptor_id', $animal->id)
+                    ->orWhere('animal_id', $animal->id)
+                    ->orWhere('pai_id', $animal->id);
+            })
             ->get();
     
+        $treatments = Treatment::where('animal_id', $animal->id)->get();
+
         return Inertia::render('Animals/Show', [
             'animal' => $animal,
             'treatments' => $treatments,
+            'reproductionActivities' => $reproductionActivities,
         ]);
     }
+    
 
     public function edit(Animal $animal)
     {
