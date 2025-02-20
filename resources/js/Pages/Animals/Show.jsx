@@ -10,6 +10,15 @@ export default function Show({ animal, treatments = [], reproductionActivities =
         <>
             <Head title={animal.name} />
             <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded space-y-6">
+                {/* Botão Voltar para o Dashboard (ou para a tela anterior) */}
+                <div className="mb-4">
+                    <Link
+                        href={route('dashboard')}
+                        className="inline-block py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600"
+                    >
+                        Voltar
+                    </Link>
+                </div>
                 <h1 className="text-3xl font-bold mb-4">{animal.name}</h1>
                 <div className="space-y-2">
                     <p>
@@ -48,12 +57,6 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                 </div>
 
                 <div className="flex justify-between items-center space-x-4">
-                    <Link
-                        href={route('dashboard')}
-                        className="py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-                    >
-                        Voltar ao Dashboard
-                    </Link>
                     <button
                         onClick={() => setShowProcedures(true)}
                         className="py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700"
