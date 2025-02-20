@@ -81,7 +81,7 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                             {treatments.map((treatment) => (
                                 <div key={treatment.id} className="border rounded p-4">
                                     <p>
-                                        <strong>Tipo:</strong> {treatment.treatment_type.name}
+                                        <strong>Tipo:</strong> {treatment.treatment_type ? treatment.treatment_type.name : 'Tipo não informado'}
                                     </p>
                                     <p>
                                         <strong>Data:</strong> {new Date(treatment.date).toLocaleDateString()}
@@ -117,19 +117,46 @@ export default function Show({ animal, treatments = [], reproductionActivities =
             <Modal show={showReproductions} onClose={() => setShowReproductions(false)}>
                 <div className="p-4">
                     <h2 className="text-xl font-semibold mb-4">Reproduções de {animal.name}</h2>
-                    {
-                        reproductionActivities && reproductionActivities.length > 0 && (
-                            <div className="mt-6 bg-white p-4 rounded shadow">
-                                <h2 className="text-xl font-bold mb-2">Atividades de Reprodução</h2>
-                                {reproductionActivities.map((rep) => (
-                                    <div key={rep.id} className="border rounded p-2 mb-2">
-                                        <p><strong>Tipo:</strong> {rep.type}</p>
-                                        <p><strong>Data:</strong> {rep.date ? new Date(rep.date).toLocaleDateString() : '—'}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        )
-                    }
+                    {reproductionActivities && reproductionActivities.length > 0 ? (
+                        <div className="mt-6 bg-white p-4 rounded shadow">
+                            <h2 className="text-xl font-bold mb-2">Atividades de Reprodução</h2>
+                            {reproductionActivities.map((rep) => (
+                                <div key={rep.id} className="border rounded p-2 mb-2">
+                                    <p><strong>Tipo:</strong> {rep.type}</p>
+                                    <p><strong>Data:</strong> {rep.date ? new Date(rep.date).toLocaleDateString() : '—'}</p>
+                                    {rep.type === 'monta_natural' || rep.type === 'inseminacao' ? (
+                                        <>
+                                            <p><strong>Égua:</strong> {rep.egua ? rep.egua.name : rep.egua_name}</p>
+                                            <p><strong>Cavalo:</strong> {rep.cavalo ? rep.cavalo.name : rep.cavalo_name}</p>
+                                        </>
+                                    ) : rep.type === 'transferencia' ? (
+                                        <>
+                                            <p><strong>Doadora:</strong> {rep.doadora ? rep.doadora.name : rep.doadora_name}</p>
+                                            <p><strong>Cavalo:</strong> {rep.cavalo ? rep.cavalo.name : rep.cavalo_name}</p>
+                                            <p><strong>Receptor:</strong> {rep.receptor ? rep.receptor.name : rep.receptor_name}</p>
+                                        </>
+                                    ) : rep.type === 'confirmacao_prenhes' ? (
+                                        <>
+                                            <p><strong>Animal:</strong> {rep.animal ? rep.animal.name : rep.animal_name}</p>
+                                            <p><strong>Data Exame:</strong> {rep.date_exame ? new Date(rep.date_exame).toLocaleDateString() : '—'}</p>
+                                            <p><strong>Data Provável:</strong> {rep.date_provavel ? new Date(rep.date_provavel).toLocaleDateString() : '—'}</p>
+                                            <p><strong>Pai:</strong> {rep.pai ? rep.pai.name : rep.pai_name}</p>
+                                        </>
+                                    ) : null}
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>Não há reproduções cadastradas para este animal.</p>
+                    )}
+                    <div className="mt-4 flex justify-end">
+                        <button
+                            onClick={() => setShowReproductions(false)}
+                            className="py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600"
+                        >
+                            Fechar
+                        </button>
+                    </div>
                 </div>
             </Modal>
         </>
