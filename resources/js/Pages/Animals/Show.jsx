@@ -9,7 +9,7 @@ export default function Show({ animal, treatments = [], reproductionActivities =
     return (
         <>
             <Head title={animal.name} />
-            <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded">
+            <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded space-y-6">
                 <h1 className="text-3xl font-bold mb-4">{animal.name}</h1>
                 <div className="space-y-2">
                     <p>
@@ -29,7 +29,7 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                     </p>
                 </div>
 
-                <div className="mt-6">
+                <div className="space-y-6">
                     <h2 className="text-xl font-semibold mb-2">Fotos</h2>
                     {animal.photos && animal.photos.length > 0 ? (
                         <div className="grid grid-cols-2 gap-4">
@@ -47,7 +47,7 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                     )}
                 </div>
 
-                <div className="mt-6 flex justify-between items-center">
+                <div className="flex justify-between items-center space-x-4">
                     <Link
                         href={route('dashboard')}
                         className="py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
