@@ -127,7 +127,7 @@ export default function Create({ breeds }) {
                         {errors.photos && <div className="text-red-500 text-sm">{errors.photos}</div>}
                     </div>
 
-                    <div>
+                    <div className="flex justify-between">
                         <button
                             type="submit"
                             disabled={processing}
@@ -135,6 +135,12 @@ export default function Create({ breeds }) {
                         >
                             Cadastrar
                         </button>
+                        <a
+                            href={route('dashboard')}
+                            className="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700"
+                        >
+                            Voltar
+                        </a>
                     </div>
                 </form>
             </div>
