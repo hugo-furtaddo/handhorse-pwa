@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, useForm, usePage, Link } from '@inertiajs/react';
 import Modal from '@/Components/Modal';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function AnimalHealth({ treatmentTypes, animals, treatments }) {
     // Obtem os flash messages (caso haja confirmação de sucesso)
@@ -74,18 +75,9 @@ export default function AnimalHealth({ treatmentTypes, animals, treatments }) {
     };
 
     return (
-        <>
+        <AuthenticatedLayout header={<h2 className="text-xl font-semibold leading-tight text-gray-800"></h2>} >
             <Head title="Saúde Animal" />
             <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-                {/* Botão Voltar para o Dashboard (ou para a tela anterior) */}
-                <div className="mb-4">
-                    <Link
-                        href={route('dashboard')}
-                        className="inline-block py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600"
-                    >
-                        Voltar
-                    </Link>
-                </div>
 
                 {/* Exibe flash message se houver confirmação */}
                 {flash.success && (
@@ -275,6 +267,6 @@ export default function AnimalHealth({ treatmentTypes, animals, treatments }) {
                     </div>
                 </form>
             </Modal>
-        </>
+        </AuthenticatedLayout>
     );
 }
