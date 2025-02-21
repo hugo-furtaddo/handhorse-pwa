@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import Modal from '@/Components/Modal';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Reproduction({ animals, reproductions }) {
     const { flash = {} } = usePage().props;
@@ -65,18 +66,9 @@ export default function Reproduction({ animals, reproductions }) {
     ];
 
     return (
-        <>
+        <AuthenticatedLayout header={<h2 className="text-xl font-semibold leading-tight text-gray-800"></h2>} >
             <Head title="Reprodução" />
             <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-                {/* Botão Voltar, se desejar redirecionar a outra tela */}
-                <div className="mb-4">
-                    <Link
-                        href={route('dashboard')}
-                        className="inline-block py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600"
-                    >
-                        Voltar
-                    </Link>
-                </div>
 
                 {flash.success && (
                     <div className="mb-4 p-4 bg-green-100 text-green-700 rounded">
@@ -506,6 +498,6 @@ export default function Reproduction({ animals, reproductions }) {
                     </div>
                 </form>
             </Modal>
-        </>
+        </AuthenticatedLayout>
     );
 }
