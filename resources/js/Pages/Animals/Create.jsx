@@ -1,5 +1,6 @@
 import React from 'react';
 import { Head, useForm } from '@inertiajs/react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Create({ breeds }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -40,7 +41,7 @@ export default function Create({ breeds }) {
     };
 
     return (
-        <>
+        <AuthenticatedLayout header={<h2 className="text-xl font-semibold leading-tight text-gray-800"></h2>} >
             <Head title="Cadastrar Animal" />
             <div className="max-w-2xl mx-auto p-6 bg-white shadow rounded">
                 <h1 className="text-2xl font-bold mb-4">Cadastro de Animal</h1>
@@ -126,24 +127,8 @@ export default function Create({ breeds }) {
                         />
                         {errors.photos && <div className="text-red-500 text-sm">{errors.photos}</div>}
                     </div>
-
-                    <div className="flex justify-between">
-                        <button
-                            type="submit"
-                            disabled={processing}
-                            className="py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-                        >
-                            Cadastrar
-                        </button>
-                        <a
-                            href={route('dashboard')}
-                            className="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700"
-                        >
-                            Voltar
-                        </a>
-                    </div>
                 </form>
             </div>
-        </>
+        </AuthenticatedLayout>
     );
 }
