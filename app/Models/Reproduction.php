@@ -1,10 +1,14 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reproduction extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'type',
@@ -25,12 +29,17 @@ class Reproduction extends Model
         'pai_name',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+        'date_exame' => 'date',
+        'date_provavel' => 'date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Se o animal for do próprio usuário:
     public function egua()
     {
         return $this->belongsTo(Animal::class, 'egua_id');

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Treatment extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id', 'animal_id', 'treatment_type_id', 'date', 'details'
     ];

@@ -7,18 +7,16 @@ use App\Models\Treatment;
 use App\Models\TreatmentType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Auth;
 
 class TreatmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Retorna os tipos de tratamento, os animais do usuário e os tratamentos já cadastrados
+        $user = $request->user();
         $treatmentTypes = TreatmentType::all();
-        $animals = Animal::where('user_id', Auth::id())->get();
+        $animals = Animal::where('user_id', $user->id)->get();
         $treatments = Treatment::with('treatmentType', 'animal')
-            ->where('user_id', Auth::id())
+            ->where('user_id', $user->id)
             ->get();
 
         return Inertia::render('AnimalHealth', [
@@ -41,15 +39,21 @@ class TreatmentController extends Controller
         $treatmentType = TreatmentType::findOrFail($validated['treatment_type_id']);
         $details = [];
 
-        // Validação e processamento de campos específicos conforme o tipo
+        // Função auxiliar para upload de fotos
+        $uploadPhoto = function($photoField) use ($request) {
+            if ($request->hasFile($photoField)) {
+                return $request->file($photoField)->store('treatments', 'public');
+            }
+            return null;
+        };
+
         switch ($treatmentType->name) {
             case 'Vermifugação':
                 $data = $request->validate([
                     'vermifugo_photo' => 'nullable|image|max:2048',
                     'vermifugo_type' => 'required|string|max:255',
                 ]);
-                if ($request->hasFile('vermifugo_photo')) {
-                    $path = $request->file('vermifugo_photo')->store('treatments', 'public');
+                if ($path = $uploadPhoto('vermifugo_photo')) {
                     $details['photo'] = $path;
                 }
                 $details['type'] = $data['vermifugo_type'];
@@ -59,8 +63,7 @@ class TreatmentController extends Controller
                     'vacina_photo' => 'nullable|image|max:2048',
                     'vacina_type' => 'required|string|max:255',
                 ]);
-                if ($request->hasFile('vacina_photo')) {
-                    $path = $request->file('vacina_photo')->store('treatments', 'public');
+                if ($path = $uploadPhoto('vacina_photo')) {
                     $details['photo'] = $path;
                 }
                 $details['type'] = $data['vacina_type'];
@@ -70,8 +73,7 @@ class TreatmentController extends Controller
                     'suplemento_photo' => 'nullable|image|max:2048',
                     'suplemento_type' => 'required|string|max:255',
                 ]);
-                if ($request->hasFile('suplemento_photo')) {
-                    $path = $request->file('suplemento_photo')->store('treatments', 'public');
+                if ($path = $uploadPhoto('suplemento_photo')) {
                     $details['photo'] = $path;
                 }
                 $details['type'] = $data['suplemento_type'];
@@ -86,11 +88,11 @@ class TreatmentController extends Controller
                 // Sem campos extras.
                 break;
             default:
-                break;
+                return redirect()->back()->withErrors(['treatment_type_id' => 'Tipo de tratamento inválido.']);
         }
 
         Treatment::create([
-            'user_id' => Auth::id(),
+            'user_id' => $request->user()->id,
             'animal_id' => $validated['animal_id'],
             'treatment_type_id' => $validated['treatment_type_id'],
             'date' => $validated['date'],

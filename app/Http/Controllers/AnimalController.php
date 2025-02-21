@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\Breed;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use App\Models\Treatment;
 use App\Models\Reproduction;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AnimalController extends Controller
 {
     // Lista os animais cadastrados pelo produtor (usuário logado)
-    public function index()
+    public function index(Request $request)
     {
+        $user = $request->user();
         $animals = Animal::with('breed')
-            ->where('user_id', auth()->id())
+            ->where('user_id', $user->id)
             ->get();
 
         return Inertia::render('Animals/Index', [
@@ -42,36 +43,34 @@ class AnimalController extends Controller
             'father'     => 'nullable|string|max:255',
             'mother'     => 'nullable|string|max:255',
             'progeny'    => 'nullable|string',
-            'photos.*'   => 'nullable|image|max:2048', // validação para cada imagem
+            'photos.*'   => 'nullable|image|max:2048',
         ]);
 
-        $photosPaths = [];
         if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('animals', 'public');
-                $photosPaths[] = $path;
-            }
+            $data['photos'] = collect($request->file('photos'))->map(function ($photo) {
+                return $photo->store('animals', 'public');
+            })->toArray();
+        } else {
+            $data['photos'] = [];
         }
-        $data['photos'] = $photosPaths;
-        $data['user_id'] = auth()->id();
+
+        $data['user_id'] = $request->user()->id;
 
         $animal = Animal::create($data);
 
-        return redirect()->route('animals.show', $animal->id);
+        return redirect()->route('animals.show', $animal);
     }
 
     // Exibe os detalhes de um animal específico
     public function show(Animal $animal)
     {
-        if ($animal->user_id !== auth()->id()) {
-            abort(403);
-        }
-        $animal->load(['breed']);
-    
-        // Filtra reproductions onde esse $animal aparece
-        $reproductionActivities = Reproduction::with('egua','cavalo','doadora','receptor','animal','pai')
+        $this->authorize('view', $animal); // Utilizando a Policy
+
+        $animal->load('breed');
+
+        $reproductionActivities = Reproduction::with('egua', 'cavalo', 'doadora', 'receptor', 'animal', 'pai')
             ->where('user_id', auth()->id())
-            ->where(function($query) use ($animal) {
+            ->where(function ($query) use ($animal) {
                 $query->where('egua_id', $animal->id)
                     ->orWhere('cavalo_id', $animal->id)
                     ->orWhere('doadora_id', $animal->id)
@@ -80,8 +79,8 @@ class AnimalController extends Controller
                     ->orWhere('pai_id', $animal->id);
             })
             ->get();
-    
-        $treatments = Treatment::where('animal_id', $animal->id)->get();
+
+            $treatments = Treatment::with('treatmentType')->where('animal_id', $animal->id)->get();
 
         return Inertia::render('Animals/Show', [
             'animal' => $animal,
@@ -89,14 +88,11 @@ class AnimalController extends Controller
             'reproductionActivities' => $reproductionActivities,
         ]);
     }
-    
 
     public function edit(Animal $animal)
     {
-        // Garante que o usuário só edite seus próprios animais
-        if ($animal->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorize('update', $animal); // Utilizando a Policy
+
         $breeds = Breed::all();
 
         return Inertia::render('Animals/Edit', [
