@@ -9,7 +9,11 @@ export default function Login() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        post(route('login'));
+        try {
+            post(route('login'));
+        } catch (error) {
+            console.error('Erro ao fazer login:', error);
+        }
     }
 
     return (
