@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -13,8 +13,14 @@ export default function Create({ breeds }) {
         photos: [],
     });
 
+    const fileInputRef = useRef();
+
     const handleFileChange = (e) => {
         setData('photos', e.target.files);
+    };
+
+    const openFileDialog = () => {
+        fileInputRef.current.click();
     };
 
     const submit = (e) => {
@@ -43,16 +49,17 @@ export default function Create({ breeds }) {
     return (
         <AuthenticatedLayout 
             header={
-                <header className="bg-white shadow fixed top-0 inset-x-0 z-50 p-4 border-b border-gray-10 flex items-center justify-center">
+                <header className="bg-white shadow fixed top-0 inset-x-0 z-50 p-4 border-b border-gray-100 flex items-center justify-center">
                     <h2 className="text-xl font-semibold text-gray-400">Cadastro de Animal</h2>
                 </header>
             }
         >
             <Head title="Cadastrar Animal" />
-            <div className="flex-1 pt-1 pb-6 bg-gray-10">
+            <div className="flex-1 pt-1 pb-6 bg-gray-0">
                 <div className="max-w-md mx-auto bg-white p-6 shadow rounded-lg">
                     <h1 className="text-2xl font-bold mb-6 text-center">Novo Animal</h1>
                     <form onSubmit={submit} encType="multipart/form-data">
+                        {/* Outros campos já existentes */}
                         <div className="mb-4">
                             <label className="block text-gray-700">Nome</label>
                             <input
@@ -124,16 +131,26 @@ export default function Create({ breeds }) {
                             {errors.progeny && <div className="text-red-500 text-sm mt-1">{errors.progeny}</div>}
                         </div>
 
+                        {/* Botão customizado para upload */}
                         <div className="mb-4">
                             <label className="block text-gray-700">Fotos</label>
                             <input
                                 type="file"
                                 multiple
+                                ref={fileInputRef}
                                 onChange={handleFileChange}
-                                className="mt-1 block w-full border rounded p-2 focus:ring focus:ring-indigo-300"
+                                className="hidden"
                             />
+                            <button
+                                type="button"
+                                onClick={openFileDialog}
+                                className="mt-1 block  py-2 px-4 bg-green-600 text-white rounded hover:bg-indigo-700 transition-colors duration-200"
+                            >
+                                Selecionar Fotos
+                            </button>
                             {errors.photos && <div className="text-red-500 text-sm mt-1">{errors.photos}</div>}
                         </div>
+                        <hr className="my-6" />
 
                         <div className="flex justify-center">
                             <button
