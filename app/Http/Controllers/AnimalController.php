@@ -80,7 +80,7 @@ class AnimalController extends Controller
             })
             ->get();
 
-        $treatments = Treatment::where('animal_id', $animal->id)->get();
+            $treatments = Treatment::with('treatmentType')->where('animal_id', $animal->id)->get();
 
         return Inertia::render('Animals/Show', [
             'animal' => $animal,
