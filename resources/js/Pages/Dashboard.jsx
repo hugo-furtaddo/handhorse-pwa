@@ -8,7 +8,7 @@ export default function Dashboard({ animals }) {
     return (
         <AuthenticatedLayout
             header={
-                <header className="flex flex-col md:flex-row justify-between items-center">
+                <header className="flex flex-col md:flex-row justify-between items-center p-4 border-b border-gray-200">
                     <h2 className="text-xl font-semibold text-gray-800">
                         Dashboard
                     </h2>
@@ -22,9 +22,9 @@ export default function Dashboard({ animals }) {
             }
         >
             <Head title="Dashboard" />
-            <main className="py-8 px-4 sm:px-6 lg:px-8">
-                {/* Conteúdo centralizado e responsivo */}
-                <Container>
+            <main className="flex-1 overflow-y-auto bg-gray-100">
+                <Container className="p-4">
+                    {/* Conteúdo centralizado e responsivo */}
                     <AnimalsCarousel animals={animals} />
                 </Container>
             </main>

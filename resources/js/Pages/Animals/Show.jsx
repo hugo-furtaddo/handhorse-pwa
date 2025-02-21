@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import Modal from '@/Components/Modal';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function Show({ animal, treatments = [], reproductionActivities = [] }) {
     const [showProcedures, setShowProcedures] = useState(false);
     const [showReproductions, setShowReproductions] = useState(false);
 
     return (
-        <>
+        <AuthenticatedLayout header={<h2 className="text-xl font-semibold leading-tight text-gray-800"></h2>}>
             <Head title={animal.name} />
             <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded space-y-6">
-                {/* Botão Voltar para o Dashboard (ou para a tela anterior) */}
-                <div className="mb-4">
-                    <Link
-                        href={route('dashboard')}
-                        className="inline-block py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600"
-                    >
-                        Voltar
-                    </Link>
-                </div>
                 <h1 className="text-3xl font-bold mb-4">{animal.name}</h1>
                 <div className="space-y-2">
                     <p>
@@ -159,6 +151,6 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                     </div>
                 </div>
             </Modal>
-        </>
+        </AuthenticatedLayout>
     );
 }
