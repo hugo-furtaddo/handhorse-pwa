@@ -127,6 +127,16 @@ export default function Create({ breeds }) {
                         />
                         {errors.photos && <div className="text-red-500 text-sm">{errors.photos}</div>}
                     </div>
+
+                    <div className="flex justify-between">
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            className="py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                        >
+                            Cadastrar
+                        </button>
+                    </div>
                 </form>
             </div>
         </AuthenticatedLayout>
