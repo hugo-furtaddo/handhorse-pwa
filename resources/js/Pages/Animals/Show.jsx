@@ -83,6 +83,13 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                         >
                             Editar
                         </Link>
+                        <a
+                            href={route('animals.history', animal.id)}
+                            target="_blank"
+                            className="flex-1 py-2 bg-red-600 text-white rounded text-center hover:bg-red-700 transition-colors duration-200"
+                        >
+                            Gerar PDF
+                        </a>
                     </div>
                 </div>
 
