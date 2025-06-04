@@ -3,16 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { font-family: DejaVu Sans, sans-serif; }
-        h1, h2 { text-align: center; margin-bottom: 10px; }
+        body { font-family: DejaVu Sans, sans-serif; color: #333; font-size: 12px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .photos { text-align: center; margin-bottom: 20px; }
+        .photos img { width: 120px; height: 120px; object-fit: cover; border-radius: 6px; margin: 0 4px 8px; }
         .section { margin-bottom: 20px; }
+        .section h2 { background: #f0f0f0; padding: 5px; border-radius: 4px; margin-bottom: 8px; }
         table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th, td { border: 1px solid #ccc; padding: 4px; }
-        th { background: #f0f0f0; }
+        th, td { border: 1px solid #ccc; padding: 6px; }
+        th { background: #fafafa; }
+        tbody tr:nth-child(even) { background: #f9f9f9; }
     </style>
 </head>
 <body>
-    <h1>Histórico de {{ $animal->name }}</h1>
+    <div class="header">
+        <h1>Histórico de {{ $animal->name }}</h1>
+    </div>
+
+    @if(!empty($animal->photos))
+        <div class="section">
+            <h2>Fotos</h2>
+            <div class="photos">
+                @foreach(array_slice($animal->photos, 0, 4) as $photo)
+                    <img src="{{ public_path('storage/' . $photo) }}" alt="Foto do animal">
+                @endforeach
+            </div>
+        </div>
+    @endif
 
     <div class="section">
         <h2>Dados do Animal</h2>
