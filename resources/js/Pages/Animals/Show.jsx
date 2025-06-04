@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
@@ -70,6 +70,12 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                         >
                             Reproduções
                         </button>
+                        <Link
+                            href={route('animals.edit', animal.id)}
+                            className="flex-1 py-2 bg-yellow-500 text-white rounded text-center hover:bg-yellow-600 transition-colors duration-200"
+                        >
+                            Editar
+                        </Link>
                     </div>
                 </div>
 
