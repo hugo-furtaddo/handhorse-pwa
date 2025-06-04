@@ -36,7 +36,7 @@ export default function AnimalsCarousel({ animals }) {
 
     return (
         <div className="bg-white shadow-lg rounded-lg p-8">
-            <h3 className="text-2xl font-bold mb-4">Animais</h3>
+            <h3 className="text-2xl font-bold mb-4 text-brand-700">Animais</h3>
             {animals && animals.length > 0 ? (
                 <Slider {...settings}>
                     {animals.map(animal => (

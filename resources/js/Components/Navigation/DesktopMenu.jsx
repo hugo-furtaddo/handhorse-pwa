@@ -8,7 +8,7 @@ export default function DesktopMenu({ user }) {
                     <span className="inline-flex rounded-full">
                         <button
                             type="button"
-                            className="inline-flex items-center rounded-full border border-transparent bg-white px-3 py-2 text-sm font-medium text-gray-700 transition duration-150 ease-in-out hover:text-gray-900 focus:outline-none"
+                            className="inline-flex items-center rounded-full border border-transparent bg-brand-600 px-3 py-2 text-sm font-medium text-white transition duration-150 ease-in-out hover:bg-brand-700 focus:outline-none"
                             aria-label="Opções do usuário"
                         >
                             {user?.name}

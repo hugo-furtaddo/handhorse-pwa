@@ -12,8 +12,8 @@ export default function Header() {
     const toggleMenu = () => setShowingNavigationDropdown(prev => !prev);
 
     return (
-        <header className="bg-white shadow-sm fixed top-0 inset-x-0 z-50">
-            <nav className="border-b border-gray-100" aria-label="Navegação Principal">
+        <header className="bg-gradient-to-r from-brand-700 to-brand-500 text-white shadow-sm fixed top-0 inset-x-0 z-50">
+            <nav className="border-b border-brand-400/40" aria-label="Navegação Principal">
                 <div className="mx-auto max-w-md px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between items-center">
                         <div className="flex items-center">
@@ -21,7 +21,7 @@ export default function Header() {
                                 <ApplicationLogo className="h-8 w-auto" />
                             </Link>
                             <div className="hidden ml-4 space-x-4 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                <NavLink href={route('dashboard')} active={route().current('dashboard')} variant="dark">
                                     Dashboard
                                 </NavLink>
                             </div>
@@ -32,7 +32,7 @@ export default function Header() {
                                 <button
                                     onClick={toggleMenu}
                                     type="button"
-                                    className="inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring"
+                                    className="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-brand-600 focus:outline-none focus:ring"
                                     aria-label="Abrir menu"
                                     aria-expanded={showingNavigationDropdown}
                                     aria-controls="mobile-menu"
