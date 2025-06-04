@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
             AssociationSeeder::class,
             ReproductionTypeSeeder::class,
             TreatmentTypeSeeder::class,
+            AnimalSeeder::class,
+            TreatmentSeeder::class,
+            ReproductionSeeder::class,
         ]);
     }
 }
