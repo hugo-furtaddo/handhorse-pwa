@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import Modal from '@/Components/Modal';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
-export default function Show({ animal, treatments = [], reproductionActivities = [] }) {
+export default function Show({ animal, treatments = [], reproductionActivities = [], awards = [] }) {
     const [showProcedures, setShowProcedures] = useState(false);
     const [showReproductions, setShowReproductions] = useState(false);
+    const [showAwards, setShowAwards] = useState(false);
 
     return (
         <AuthenticatedLayout
@@ -69,6 +70,12 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                             className="flex-1 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-200"
                         >
                             Reproduções
+                        </button>
+                        <button
+                            onClick={() => setShowAwards(true)}
+                            className="flex-1 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors duration-200"
+                        >
+                            Premiações
                         </button>
                         <Link
                             href={route('animals.edit', animal.id)}
@@ -183,6 +190,53 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                                 Fechar
                             </button>
                         </div>
+                    </div>
+                </Modal>
+
+                {/* Modal para premiações */}
+                <Modal show={showAwards} onClose={() => setShowAwards(false)}>
+                    <div className="p-4">
+                        <h2 className="text-xl font-semibold mb-4">Premiações de {animal.name}</h2>
+                        {awards && awards.length > 0 ? (
+                            <div className="space-y-4 max-h-96 overflow-y-auto">
+                                {awards.map((award) => (
+                                    <div key={award.id} className="border rounded p-4 flex items-center space-x-2">
+                                        <span role="img" aria-label="trophy">🏆</span>
+                                        <div className="flex-1">
+                                            <p className="font-semibold">{award.competition}</p>
+                                            {award.position && <p className="text-sm">{award.position}</p>}
+                                            {award.date && (
+                                                <p className="text-xs text-gray-500">
+                                                    {new Date(award.date).toLocaleDateString()}
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p>Não há premiações cadastradas para este animal.</p>
+                        )}
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                const formData = new FormData(e.target);
+                                router.post(route('awards.store', animal.id), formData);
+                            }}
+                            className="mt-4 space-y-2"
+                        >
+                            <input type="text" name="competition" placeholder="Competição" className="w-full border rounded p-2" required />
+                            <input type="text" name="position" placeholder="Colocação" className="w-full border rounded p-2" />
+                            <input type="date" name="date" className="w-full border rounded p-2" />
+                            <div className="flex justify-end space-x-2">
+                                <button type="button" onClick={() => setShowAwards(false)} className="py-2 px-4 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors duration-200">
+                                    Fechar
+                                </button>
+                                <button type="submit" className="py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
+                                    Salvar
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </Modal>
             </main>
