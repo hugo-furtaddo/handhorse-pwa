@@ -1,14 +1,9 @@
-import Header from './Header';
-import Footer from './Footer';
-
-export default function AuthenticatedLayout({ header, children }) {
+export default function AuthenticatedLayout({ children }) {
     return (
         <div className="min-h-screen bg-gray-200 flex flex-col">
-            <Header />
-            <main className="flex-1 pt-20 pb-16">
+            <main className="flex-1 flex flex-col">
                 {children}
             </main>
-            <Footer />
         </div>
     );
 }
