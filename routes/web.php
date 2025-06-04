@@ -51,6 +51,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/reproduction', [ReproductionController::class, 'index'])->name('reproduction.index');
     Route::post('/reproduction', [ReproductionController::class, 'store'])->name('reproduction.store');
+
+    Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/read', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])->name('notifications.read');
 });
 
 // Rotas de autenticação (login, registro, etc.)

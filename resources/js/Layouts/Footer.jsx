@@ -1,6 +1,9 @@
 import NavLink from '@/Components/NavLink';
+import { usePage } from '@inertiajs/react';
 
 export default function Footer() {
+    const unread = usePage().props.unreadNotificationsCount || 0;
+
     return (
         <footer className="bg-white shadow-inner fixed bottom-0 inset-x-0">
             <div className="mx-auto max-w-md px-4 sm:px-6 lg:px-8">
@@ -14,6 +17,16 @@ export default function Footer() {
                         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                         </svg>
+                    </NavLink>
+                    <NavLink href={route('notifications.index')} active={route().current('notifications.index')}>
+                        <div className="relative">
+                            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            {unread > 0 && (
+                                <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500"></span>
+                            )}
+                        </div>
                     </NavLink>
                     <NavLink href={route('profile.edit')} active={route().current('profile.edit')}>
                         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
