@@ -31,6 +31,7 @@ export default function DesktopMenu({ user }) {
                     <Dropdown.Link href={route('dashboard')}>Dashboard</Dropdown.Link>
                     <Dropdown.Link href={route('animals.create')}>Cadastrar Animal</Dropdown.Link>
                     <Dropdown.Link href={route('animal-health')}>Saúde Animal</Dropdown.Link>
+                    <Dropdown.Link href={route('finance.index')}>Financeiro</Dropdown.Link>
                     <Dropdown.Link href={route('profile.edit')}>Perfil</Dropdown.Link>
                     <Dropdown.Link href={route('logout')} method="post" as="button">
                         Log Out

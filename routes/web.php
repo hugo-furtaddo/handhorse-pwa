@@ -3,10 +3,12 @@
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FinanceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Animal;
+use App\Models\FinanceEntry;
 use App\Http\Controllers\ReproductionController;
 
 /*
@@ -26,12 +28,24 @@ Route::get('/', function () {
 
 // Dashboard: exibe o carrossel de animais cadastrados pelo usuário autenticado
 Route::get('/dashboard', function () {
-    $animals = Animal::with('breed')
-        ->where('user_id', auth()->id())
-        ->get();
+    $userId = auth()->id();
+    $animals = Animal::with('breed')->where('user_id', $userId)->get();
+
+    $finance = App\Models\FinanceEntry::where('user_id', $userId)
+        ->get()
+        ->groupBy(function($item) {
+            return \Illuminate\Support\Carbon::parse($item->data)->format('Y-m');
+        })
+        ->map(function($group) {
+            return [
+                'custo' => $group->where('type', 'custo')->sum('valor'),
+                'receita' => $group->where('type', 'receita')->sum('valor'),
+            ];
+        });
 
     return Inertia::render('Dashboard', [
         'animals' => $animals,
+        'finance' => $finance,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -52,6 +66,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/reproduction', [ReproductionController::class, 'index'])->name('reproduction.index');
     Route::post('/reproduction', [ReproductionController::class, 'store'])->name('reproduction.store');
+
+    // Financeiro: custos e receitas
+    Route::get('/finance', [\App\Http\Controllers\FinanceController::class, 'index'])->name('finance.index');
+    Route::post('/finance', [\App\Http\Controllers\FinanceController::class, 'store'])->name('finance.store');
 
     Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/read', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])->name('notifications.read');

@@ -19,6 +19,9 @@ export default function MobileMenu({ user, closeMenu }) {
                 <ResponsiveNavLink href={route('reproduction.index')} active={route().current('reproduction.index')}>
                     Reprodução
                 </ResponsiveNavLink>
+                <ResponsiveNavLink href={route('finance.index')} active={route().current('finance.index')}>
+                    Financeiro
+                </ResponsiveNavLink>
             </div>
             <div className="border-t border-gray-200 pb-3 pt-4">
                 <div className="px-4">
