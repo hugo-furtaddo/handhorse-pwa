@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 
 export default function Create({ breeds }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -156,25 +158,17 @@ export default function Create({ breeds }) {
                                 onChange={handleFileChange}
                                 className="hidden"
                             />
-                            <button
-                                type="button"
-                                onClick={openFileDialog}
-                                className="mt-1 block  py-2 px-4 bg-green-600 text-white rounded hover:bg-indigo-700 transition-colors duration-200"
-                            >
+                            <SecondaryButton type="button" onClick={openFileDialog} className="mt-1 block">
                                 Selecionar Fotos
-                            </button>
+                            </SecondaryButton>
                             {errors.photos && <div className="text-red-500 text-sm mt-1">{errors.photos}</div>}
                         </div>
                         <hr className="my-6" />
 
                         <div className="flex justify-center">
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                className="w-full py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors duration-200"
-                            >
+                            <PrimaryButton type="submit" className="w-full" disabled={processing}>
                                 Cadastrar
-                            </button>
+                            </PrimaryButton>
                         </div>
                     </form>
                 </div>
