@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Breed;
-use App\Models\AssociationDeadline;
+use App\Models\Animal;
 use App\Notifications\AssociationReminder;
 use Illuminate\Database\Seeder;
 
@@ -17,15 +16,19 @@ class ReminderSeeder extends Seeder
             return;
         }
 
-        $breeds = Breed::with('association.deadlines')->has('association')->get();
-        foreach ($breeds as $breed) {
+        $animals = Animal::with('breed.association.deadlines')
+            ->whereHas('breed.association')
+            ->get();
+
+        foreach ($animals as $animal) {
+            $breed = $animal->breed;
             $deadline = $breed->association->deadlines->first();
             if (! $deadline) {
                 continue;
             }
 
             foreach ([30, 15, 1] as $daysLeft) {
-                $user->notify(new AssociationReminder($breed, $deadline, $daysLeft));
+                $user->notify(new AssociationReminder($breed, $deadline, $daysLeft, $animal->name));
             }
         }
     }
