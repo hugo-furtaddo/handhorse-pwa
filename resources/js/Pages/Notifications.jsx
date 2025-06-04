@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router } from '@inertiajs/react';
 
 export default function Notifications({ notifications }) {
     const unread = notifications.filter(n => !n.read_at).length;
+    const [showInfo, setShowInfo] = useState(false);
 
     const markAllRead = () => {
         router.post(route('notifications.read'));
@@ -15,11 +16,38 @@ export default function Notifications({ notifications }) {
         >
             <Head title="Notificações" />
             <div className="px-4 py-5 space-y-4">
-                {unread > 0 && (
-                    <button onClick={markAllRead} className="text-sm text-indigo-600">
-                        Marcar todas como lidas
+                <div className="flex items-center">
+                    {unread > 0 && (
+                        <button onClick={markAllRead} className="text-sm text-indigo-600">
+                            Marcar todas como lidas
+                        </button>
+                    )}
+                    <button
+                        onClick={() => setShowInfo(prev => !prev)}
+                        className="ml-auto p-1 text-gray-600 hover:text-gray-800"
+                        aria-label="Informações"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-6 h-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M11.25 11.25h1.5v3.75h-1.5m.75-6.375h.008v.008h-.008z"
+                            />
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                        </svg>
                     </button>
-                )}
+                </div>
                 {notifications.length > 0 ? (
                     <ul className="space-y-4">
                         {notifications.map(n => (
@@ -42,12 +70,13 @@ export default function Notifications({ notifications }) {
                 ) : (
                     <p>Nenhuma notificação.</p>
                 )}
-                <section className="bg-white p-4 rounded shadow space-y-2">
-                    <h3 className="text-lg font-semibold">Informações sobre Lembretes e Multas</h3>
-                    <p className="text-sm">
-                        Para manter o registro dos animais em dia, é importante respeitar os prazos de comunicação para cada tipo de notificação. O descumprimento desses prazos pode gerar multas conforme as regras de cada associação.
-                    </p>
-                    <ul className="list-disc pl-5 text-sm space-y-1">
+                {showInfo && (
+                    <section className="bg-white p-4 rounded shadow space-y-2">
+                        <h3 className="text-lg font-semibold">Informações sobre Lembretes e Multas</h3>
+                        <p className="text-sm">
+                            Para manter o registro dos animais em dia, é importante respeitar os prazos de comunicação para cada tipo de notificação. O descumprimento desses prazos pode gerar multas conforme as regras de cada associação.
+                        </p>
+                        <ul className="list-disc pl-5 text-sm space-y-1">
                         <li>Comunicação de cobrição</li>
                         <li>Comunicação de nascimento</li>
                         <li>Resenha do potro</li>
@@ -72,7 +101,8 @@ export default function Notifications({ notifications }) {
                         <p className="font-semibold mt-4">Crioulo (ABCCC)</p>
                         <p>Comunicação de cobrição deve ocorrer até 30/06 da temporada. Multas variam a partir de R$ 227,00 para sócios e R$ 454,00 para não sócios. Para resenhas após nove meses do nascimento, a multa inicial é de R$ 304,00 e aumenta conforme a idade do animal.</p>
                     </div>
-                </section>
+                    </section>
+                )}
             </div>
         </AuthenticatedLayout>
     );
