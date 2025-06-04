@@ -7,6 +7,7 @@ use App\Models\Breed;
 use App\Models\Treatment;
 use App\Models\Reproduction;
 use App\Models\Award;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -133,5 +134,36 @@ class AnimalController extends Controller
         $animal->update($data);
 
         return redirect()->route('animals.show', $animal);
+    }
+
+    public function history(Animal $animal)
+    {
+        $this->authorize('view', $animal);
+
+        $animal->load('breed');
+
+        $reproductions = Reproduction::with('egua', 'cavalo', 'doadora', 'receptor', 'animal', 'pai')
+            ->where('user_id', auth()->id())
+            ->where(function ($query) use ($animal) {
+                $query->where('egua_id', $animal->id)
+                    ->orWhere('cavalo_id', $animal->id)
+                    ->orWhere('doadora_id', $animal->id)
+                    ->orWhere('receptor_id', $animal->id)
+                    ->orWhere('animal_id', $animal->id)
+                    ->orWhere('pai_id', $animal->id);
+            })
+            ->get();
+
+        $treatments = Treatment::with('treatmentType')->where('animal_id', $animal->id)->get();
+        $awards = Award::where('animal_id', $animal->id)->orderByDesc('date')->get();
+
+        $pdf = Pdf::loadView('pdf.animal-history', [
+            'animal' => $animal,
+            'treatments' => $treatments,
+            'reproductions' => $reproductions,
+            'awards' => $awards,
+        ]);
+
+        return $pdf->download('historico-' . $animal->name . '.pdf');
     }
 }

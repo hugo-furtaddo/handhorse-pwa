@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Rotas para gerenciamento de animais (CRUD completo)
     Route::resource('animals', AnimalController::class);
+    Route::get('/animals/{animal}/history', [AnimalController::class, 'history'])->name('animals.history');
 
     // Rotas para gerenciamento de perfil do usuário
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
