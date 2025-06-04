@@ -61,32 +61,32 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         <button
                             onClick={() => setShowProcedures(true)}
-                            className="py-3 bg-green-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-green-700 transition-colors"
+                            className="py-3 bg-indigo-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-indigo-700 transition-colors"
                         >
                             Procedimentos
                         </button>
                         <button
                             onClick={() => setShowReproductions(true)}
-                            className="py-3 bg-blue-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-blue-700 transition-colors"
+                            className="py-3 bg-indigo-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-indigo-700 transition-colors"
                         >
                             Reproduções
                         </button>
                         <button
                             onClick={() => setShowAwards(true)}
-                            className="py-3 bg-purple-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-purple-700 transition-colors"
+                            className="py-3 bg-indigo-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-indigo-700 transition-colors"
                         >
                             Premiações
                         </button>
                         <Link
                             href={route('animals.edit', animal.id)}
-                            className="py-3 bg-yellow-500 text-white rounded-lg shadow text-sm font-semibold text-center hover:bg-yellow-600 transition-colors"
+                            className="py-3 bg-indigo-600 text-white rounded-lg shadow text-sm font-semibold text-center hover:bg-indigo-700 transition-colors"
                         >
                             Editar
                         </Link>
                         <a
                             href={route('animals.history', animal.id)}
                             target="_blank"
-                            className="py-3 bg-red-600 text-white rounded-lg shadow text-sm font-semibold text-center hover:bg-red-700 transition-colors col-span-2"
+                            className="py-3 bg-indigo-600 text-white rounded-lg shadow text-sm font-semibold text-center hover:bg-indigo-700 transition-colors col-span-2"
                         >
                             Gerar PDF
                         </a>
