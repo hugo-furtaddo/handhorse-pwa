@@ -2,9 +2,10 @@ import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Container from '@/Components/Container';
 import AnimalsCarousel from '@/Components/AnimalsCarousel';
+import FinanceChart from '@/Components/FinanceChart';
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard({ animals }) {
+export default function Dashboard({ animals, finance }) {
     return (
         <AuthenticatedLayout
             header={
@@ -26,6 +27,7 @@ export default function Dashboard({ animals }) {
                 <Container className="p-4">
                     {/* Conteúdo centralizado e responsivo */}
                     <AnimalsCarousel animals={animals} />
+                    <FinanceChart data={finance} />
                 </Container>
             </main>
         </AuthenticatedLayout>
