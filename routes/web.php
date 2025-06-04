@@ -54,6 +54,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/read', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])->name('notifications.read');
+
+    Route::post('/animals/{animal}/awards', [\App\Http\Controllers\AwardController::class, 'store'])->name('awards.store');
 });
 
 // Rotas de autenticação (login, registro, etc.)

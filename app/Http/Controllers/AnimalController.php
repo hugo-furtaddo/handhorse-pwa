@@ -6,6 +6,7 @@ use App\Models\Animal;
 use App\Models\Breed;
 use App\Models\Treatment;
 use App\Models\Reproduction;
+use App\Models\Award;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -81,12 +82,14 @@ class AnimalController extends Controller
             })
             ->get();
 
-            $treatments = Treatment::with('treatmentType')->where('animal_id', $animal->id)->get();
+        $treatments = Treatment::with('treatmentType')->where('animal_id', $animal->id)->get();
+        $awards = Award::where('animal_id', $animal->id)->orderByDesc('date')->get();
 
         return Inertia::render('Animals/Show', [
             'animal' => $animal,
             'treatments' => $treatments,
             'reproductionActivities' => $reproductionActivities,
+            'awards' => $awards,
         ]);
     }
 
