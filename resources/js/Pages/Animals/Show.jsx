@@ -24,6 +24,9 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                             <strong>Raça:</strong> {animal.breed.name}
                         </p>
                         <p>
+                            <strong>Sexo:</strong> {animal.sex === 'male' ? 'Macho' : 'Fêmea'}
+                        </p>
+                        <p>
                             <strong>Data de Nascimento:</strong>{' '}
                             {new Date(animal.birth_date).toLocaleDateString()}
                         </p>

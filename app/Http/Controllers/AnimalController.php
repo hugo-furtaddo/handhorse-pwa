@@ -39,6 +39,7 @@ class AnimalController extends Controller
         $data = $request->validate([
             'name'       => 'required|string|max:255',
             'breed_id'   => 'required|exists:breeds,id',
+            'sex'        => 'required|in:male,female',
             'birth_date' => 'nullable|date',
             'father'     => 'nullable|string|max:255',
             'mother'     => 'nullable|string|max:255',
