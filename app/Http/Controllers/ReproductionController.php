@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\Reproduction;
+use App\Jobs\SendAssociationReminder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -104,7 +105,30 @@ class ReproductionController extends Controller
                 return redirect()->back()->withErrors(['type' => 'Tipo de reprodução inválido.']);
         }
 
-        Reproduction::create($data);
+        $reproduction = Reproduction::create($data);
+
+        $animalId = $reproduction->egua_id ?? $reproduction->doadora_id ?? $reproduction->animal_id;
+        if ($animalId) {
+            $breed = Animal::find($animalId)?->breed;
+            if ($breed && $breed->association) {
+                $deadline = $breed->association->deadlines()->where('procedure', 'cobricao')->first();
+                $eventDate = $reproduction->date ?? $reproduction->date_exame;
+                if ($deadline && $deadline->days && $eventDate) {
+                    $due = $eventDate->copy()->addDays($deadline->days);
+                    foreach ([30,15,1] as $before) {
+                        $sendAt = $due->copy()->subDays($before);
+                        if ($sendAt->isFuture()) {
+                            \App\Jobs\SendAssociationReminder::dispatch(
+                                $request->user(),
+                                $breed,
+                                $deadline,
+                                $before
+                            )->delay($sendAt);
+                        }
+                    }
+                }
+            }
+        }
 
         return redirect()->back()->with('success', 'Reprodução cadastrada com sucesso!');
     }
