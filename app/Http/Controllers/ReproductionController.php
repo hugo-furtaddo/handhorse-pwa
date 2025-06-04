@@ -109,8 +109,9 @@ class ReproductionController extends Controller
 
         $animalId = $reproduction->egua_id ?? $reproduction->doadora_id ?? $reproduction->animal_id;
         if ($animalId) {
-            $breed = Animal::find($animalId)?->breed;
-            if ($breed && $breed->association) {
+            $animal = Animal::find($animalId);
+            $breed = $animal?->breed;
+            if ($animal && $breed && $breed->association) {
                 $deadline = $breed->association->deadlines()->where('procedure', 'cobricao')->first();
                 $eventDate = $reproduction->date ?? $reproduction->date_exame;
                 if ($deadline && $deadline->days && $eventDate) {
@@ -122,7 +123,8 @@ class ReproductionController extends Controller
                                 $request->user(),
                                 $breed,
                                 $deadline,
-                                $before
+                                $before,
+                                $animal->name
                             )->delay($sendAt);
                         }
                     }
