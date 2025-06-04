@@ -23,27 +23,7 @@ export default function MobileMenu({ user, closeMenu }) {
                     Financeiro
                 </ResponsiveNavLink>
             </div>
-            <div className="border-t border-gray-200 pb-3 pt-4">
-                <div className="px-4">
-                    <div className="text-base font-semibold text-gray-800">{user?.name}</div>
-                    <div className="text-sm text-gray-500">{user?.email}</div>
-                </div>
-                <div className="mt-3 space-y-2">
-                    <ResponsiveNavLink href={route('profile.edit')}>Perfil</ResponsiveNavLink>
-                    <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                        Sair
-                    </ResponsiveNavLink>
-                </div>
-            </div>
             {/* Botão para fechar o menu */}
-            <div className="flex justify-end px-4 pb-2">
-                <button
-                    onClick={closeMenu}
-                    className="text-sm text-gray-600 hover:text-gray-900 focus:outline-none"
-                >
-                    Fechar
-                </button>
-            </div>
         </div>
     );
 }
