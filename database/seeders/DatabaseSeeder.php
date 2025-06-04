@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             TreatmentSeeder::class,
             ReproductionSeeder::class,
             ReminderSeeder::class,
+            FinanceEntrySeeder::class,
         ]);
     }
 }
