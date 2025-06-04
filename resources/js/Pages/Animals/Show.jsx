@@ -58,35 +58,35 @@ export default function Show({ animal, treatments = [], reproductionActivities =
                             <p className="text-gray-500">Sem fotos</p>
                         )}
                     </div>
-                    <div className="flex space-x-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         <button
                             onClick={() => setShowProcedures(true)}
-                            className="flex-1 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200"
+                            className="py-3 bg-green-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-green-700 transition-colors"
                         >
                             Procedimentos
                         </button>
                         <button
                             onClick={() => setShowReproductions(true)}
-                            className="flex-1 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-200"
+                            className="py-3 bg-blue-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-blue-700 transition-colors"
                         >
                             Reproduções
                         </button>
                         <button
                             onClick={() => setShowAwards(true)}
-                            className="flex-1 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors duration-200"
+                            className="py-3 bg-purple-600 text-white rounded-lg shadow text-sm font-semibold hover:bg-purple-700 transition-colors"
                         >
                             Premiações
                         </button>
                         <Link
                             href={route('animals.edit', animal.id)}
-                            className="flex-1 py-2 bg-yellow-500 text-white rounded text-center hover:bg-yellow-600 transition-colors duration-200"
+                            className="py-3 bg-yellow-500 text-white rounded-lg shadow text-sm font-semibold text-center hover:bg-yellow-600 transition-colors"
                         >
                             Editar
                         </Link>
                         <a
                             href={route('animals.history', animal.id)}
                             target="_blank"
-                            className="flex-1 py-2 bg-red-600 text-white rounded text-center hover:bg-red-700 transition-colors duration-200"
+                            className="py-3 bg-red-600 text-white rounded-lg shadow text-sm font-semibold text-center hover:bg-red-700 transition-colors col-span-2"
                         >
                             Gerar PDF
                         </a>
