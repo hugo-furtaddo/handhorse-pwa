@@ -31,12 +31,17 @@ class ReproductionController extends Controller
     public function store(Request $request)
     {
         // Validação básica; é interessante adicionar regras específicas para cada tipo
-        $data = $request->validate([
+        $rules = [
             'type' => 'required|string|in:monta_natural,inseminacao,transferencia,confirmacao_prenhes',
-            'date' => 'required|date',
-            // Outras validações podem ser adicionadas conforme o tipo de reprodução
-        ]);
+        ];
 
+        // Somente alguns tipos exigem a data principal
+        if ($request->input('type') !== 'confirmacao_prenhes') {
+            $rules['date'] = 'required|date';
+        }
+
+        $data = $request->validate($rules);
+        
         // Atribui o usuário autenticado
         $data['user_id'] = $request->user()->id;
 
