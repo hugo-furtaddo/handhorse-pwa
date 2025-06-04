@@ -101,4 +101,34 @@ class AnimalController extends Controller
             'breeds' => $breeds,
         ]);
     }
+
+    // Atualiza os dados de um animal existente
+    public function update(Request $request, Animal $animal)
+    {
+        $this->authorize('update', $animal); // Utilizando a Policy
+
+        $data = $request->validate([
+            'name'       => 'required|string|max:255',
+            'breed_id'   => 'required|exists:breeds,id',
+            'sex'        => 'required|in:male,female',
+            'birth_date' => 'nullable|date',
+            'father'     => 'nullable|string|max:255',
+            'mother'     => 'nullable|string|max:255',
+            'progeny'    => 'nullable|string',
+            'photos.*'   => 'nullable|image|max:2048',
+        ]);
+
+        if ($request->hasFile('photos')) {
+            $newPhotos = collect($request->file('photos'))->map(function ($photo) {
+                return $photo->store('animals', 'public');
+            })->toArray();
+            $data['photos'] = array_merge($animal->photos ?? [], $newPhotos);
+        } else {
+            $data['photos'] = $animal->photos;
+        }
+
+        $animal->update($data);
+
+        return redirect()->route('animals.show', $animal);
+    }
 }
