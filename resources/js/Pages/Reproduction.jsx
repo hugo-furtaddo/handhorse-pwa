@@ -212,11 +212,13 @@ export default function Reproduction({ animals, reproductions }) {
                                         className="mt-1 block w-full border rounded p-2"
                                     >
                                         <option value="">Selecione</option>
-                                        {animals.map((animal) => (
-                                            <option key={animal.id} value={animal.id}>
-                                                {animal.name}
-                                            </option>
-                                        ))}
+                                        {animals
+                                            .filter((animal) => animal.sex === 'female')
+                                            .map((animal) => (
+                                                <option key={animal.id} value={animal.id}>
+                                                    {animal.name}
+                                                </option>
+                                            ))}
                                     </select>
                                 ) : (
                                     <input
@@ -248,11 +250,13 @@ export default function Reproduction({ animals, reproductions }) {
                                         className="mt-1 block w-full border rounded p-2"
                                     >
                                         <option value="">Selecione</option>
-                                        {animals.map((animal) => (
-                                            <option key={animal.id} value={animal.id}>
-                                                {animal.name}
-                                            </option>
-                                        ))}
+                                        {animals
+                                            .filter((animal) => animal.sex === 'male')
+                                            .map((animal) => (
+                                                <option key={animal.id} value={animal.id}>
+                                                    {animal.name}
+                                                </option>
+                                            ))}
                                     </select>
                                 ) : (
                                     <input
@@ -287,11 +291,13 @@ export default function Reproduction({ animals, reproductions }) {
                                         className="mt-1 block w-full border rounded p-2"
                                     >
                                         <option value="">Selecione</option>
-                                        {animals.map((animal) => (
-                                            <option key={animal.id} value={animal.id}>
-                                                {animal.name}
-                                            </option>
-                                        ))}
+                                        {animals
+                                            .filter((animal) => animal.sex === 'female')
+                                            .map((animal) => (
+                                                <option key={animal.id} value={animal.id}>
+                                                    {animal.name}
+                                                </option>
+                                            ))}
                                     </select>
                                 ) : (
                                     <input
@@ -321,11 +327,13 @@ export default function Reproduction({ animals, reproductions }) {
                                         className="mt-1 block w-full border rounded p-2"
                                     >
                                         <option value="">Selecione</option>
-                                        {animals.map((animal) => (
-                                            <option key={animal.id} value={animal.id}>
-                                                {animal.name}
-                                            </option>
-                                        ))}
+                                        {animals
+                                            .filter((animal) => animal.sex === 'male')
+                                            .map((animal) => (
+                                                <option key={animal.id} value={animal.id}>
+                                                    {animal.name}
+                                                </option>
+                                            ))}
                                     </select>
                                 ) : (
                                     <input
@@ -355,11 +363,13 @@ export default function Reproduction({ animals, reproductions }) {
                                         className="mt-1 block w-full border rounded p-2"
                                     >
                                         <option value="">Selecione</option>
-                                        {animals.map((animal) => (
-                                            <option key={animal.id} value={animal.id}>
-                                                {animal.name}
-                                            </option>
-                                        ))}
+                                        {animals
+                                            .filter((animal) => animal.sex === 'female')
+                                            .map((animal) => (
+                                                <option key={animal.id} value={animal.id}>
+                                                    {animal.name}
+                                                </option>
+                                            ))}
                                     </select>
                                 ) : (
                                     <input
@@ -404,11 +414,13 @@ export default function Reproduction({ animals, reproductions }) {
                                         className="mt-1 block w-full border rounded p-2"
                                     >
                                         <option value="">Selecione</option>
-                                        {animals.map((animal) => (
-                                            <option key={animal.id} value={animal.id}>
-                                                {animal.name}
-                                            </option>
-                                        ))}
+                                        {animals
+                                            .filter((animal) => animal.sex === 'male')
+                                            .map((animal) => (
+                                                <option key={animal.id} value={animal.id}>
+                                                    {animal.name}
+                                                </option>
+                                            ))}
                                     </select>
                                 ) : (
                                     <input

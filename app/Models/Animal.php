@@ -10,7 +10,15 @@ class Animal extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'name', 'breed_id', 'birth_date', 'father', 'mother', 'progeny', 'photos'
+        'user_id',
+        'name',
+        'breed_id',
+        'sex',
+        'birth_date',
+        'father',
+        'mother',
+        'progeny',
+        'photos',
     ];
 
     protected $casts = [

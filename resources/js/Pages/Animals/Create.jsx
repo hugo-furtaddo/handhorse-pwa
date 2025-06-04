@@ -6,6 +6,7 @@ export default function Create({ breeds }) {
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         breed_id: '',
+        sex: 'female',
         birth_date: '',
         father: '',
         mother: '',
@@ -30,6 +31,7 @@ export default function Create({ breeds }) {
         const formData = new FormData();
         formData.append('name', data.name);
         formData.append('breed_id', data.breed_id);
+        formData.append('sex', data.sex);
         formData.append('birth_date', data.birth_date);
         formData.append('father', data.father);
         formData.append('mother', data.mother);
@@ -72,21 +74,34 @@ export default function Create({ breeds }) {
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-gray-700">Raça</label>
-                            <select
-                                value={data.breed_id}
-                                onChange={e => setData('breed_id', e.target.value)}
-                                className="mt-1 block w-full border rounded p-2 focus:ring focus:ring-indigo-300"
-                            >
-                                <option value="">Selecione a raça</option>
-                                {breeds.map(breed => (
-                                    <option key={breed.id} value={breed.id}>
-                                        {breed.name}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.breed_id && <div className="text-red-500 text-sm mt-1">{errors.breed_id}</div>}
-                        </div>
+                        <label className="block text-gray-700">Raça</label>
+                        <select
+                            value={data.breed_id}
+                            onChange={e => setData('breed_id', e.target.value)}
+                            className="mt-1 block w-full border rounded p-2 focus:ring focus:ring-indigo-300"
+                        >
+                            <option value="">Selecione a raça</option>
+                            {breeds.map(breed => (
+                                <option key={breed.id} value={breed.id}>
+                                    {breed.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors.breed_id && <div className="text-red-500 text-sm mt-1">{errors.breed_id}</div>}
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Sexo</label>
+                        <select
+                            value={data.sex}
+                            onChange={e => setData('sex', e.target.value)}
+                            className="mt-1 block w-full border rounded p-2 focus:ring focus:ring-indigo-300"
+                        >
+                            <option value="female">Fêmea</option>
+                            <option value="male">Macho</option>
+                        </select>
+                        {errors.sex && <div className="text-red-500 text-sm mt-1">{errors.sex}</div>}
+                    </div>
 
                         <div className="mb-4">
                             <label className="block text-gray-700">Data de Nascimento</label>
