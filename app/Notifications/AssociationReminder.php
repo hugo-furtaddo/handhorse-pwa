@@ -26,7 +26,7 @@ class AssociationReminder extends Notification implements ShouldQueue
 
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     public function toMail(object $notifiable): MailMessage
@@ -35,5 +35,13 @@ class AssociationReminder extends Notification implements ShouldQueue
             ->subject('Lembrete de comunicação à associação')
             ->line('Faltam '.$this->daysLeft.' dia(s) para comunicar '.$this->deadline->procedure.' à associação '.$this->breed->association->name.'.')
             ->line('Regra: '.$this->deadline->rule);
+    }
+
+    public function toArray(object $notifiable): array
+    {
+        return [
+            'message' => 'Faltam '.$this->daysLeft.' dia(s) para comunicar '.$this->deadline->procedure.' à associação '.$this->breed->association->name.'.',
+            'rule' => $this->deadline->rule,
+        ];
     }
 }
