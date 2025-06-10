@@ -24,6 +24,9 @@ export default function Header() {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')} variant="dark">
                                     Dashboard
                                 </NavLink>
+                                <NavLink href={route('animals.index')} active={route().current('animals.index')} variant="dark">
+                                    Meus Animais
+                                </NavLink>
                             </div>
                         </div>
                         <div className="flex items-center">

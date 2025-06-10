@@ -29,6 +29,7 @@ export default function DesktopMenu({ user }) {
                 </Dropdown.Trigger>
                 <Dropdown.Content>
                     <Dropdown.Link href={route('dashboard')}>Dashboard</Dropdown.Link>
+                    <Dropdown.Link href={route('animals.index')}>Meus Animais</Dropdown.Link>
                     <Dropdown.Link href={route('animals.create')}>Cadastrar Animal</Dropdown.Link>
                     <Dropdown.Link href={route('animal-health')}>Saúde Animal</Dropdown.Link>
                     <Dropdown.Link href={route('finance.index')}>Financeiro</Dropdown.Link>

@@ -10,6 +10,9 @@ export default function MobileMenu({ user, closeMenu }) {
                 <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                     Dashboard
                 </ResponsiveNavLink>
+                <ResponsiveNavLink href={route('animals.index')} active={route().current('animals.index')}>
+                    Meus Animais
+                </ResponsiveNavLink>
                 <ResponsiveNavLink href={route('animals.create')} active={route().current('animals.create')}>
                     Cadastrar Animal
                 </ResponsiveNavLink>
