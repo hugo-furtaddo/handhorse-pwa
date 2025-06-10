@@ -6,7 +6,7 @@ export default function ApplicationLogo(props) {
             {...props}
             src="/handhorse.png"
             alt="Handhorse Logo"
-            className="h-10 w-auto" // Ajuste o tamanho conforme necessário
+            className="h-16 w-auto" // Ajuste o tamanho conforme necessário
         />
     );
 }
