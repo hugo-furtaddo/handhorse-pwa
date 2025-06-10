@@ -11,9 +11,7 @@ export default function Notifications({ notifications }) {
     };
 
     return (
-        <AuthenticatedLayout
-            header={<h2 className="text-xl font-semibold leading-tight text-gray-800">Notificações</h2>}
-        >
+        <AuthenticatedLayout>
             <Head title="Notificações" />
             <div className="px-4 py-5 space-y-4">
                 <section className="bg-white rounded shadow">

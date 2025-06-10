@@ -13,8 +13,17 @@ class FinanceController extends Controller
         $user = $request->user();
         $entries = FinanceEntry::where('user_id', $user->id)->orderByDesc('data')->get();
 
+        $chart = FinanceEntry::where('user_id', $user->id)
+            ->get()
+            ->groupBy(fn ($item) => \Illuminate\Support\Carbon::parse($item->data)->format('Y-m'))
+            ->map(fn ($group) => [
+                'custo' => $group->where('type', 'custo')->sum('valor'),
+                'receita' => $group->where('type', 'receita')->sum('valor'),
+            ]);
+
         return Inertia::render('Finance', [
             'entries' => $entries,
+            'chart'   => $chart,
         ]);
     }
 

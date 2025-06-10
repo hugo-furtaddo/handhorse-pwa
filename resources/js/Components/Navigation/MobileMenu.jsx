@@ -23,7 +23,11 @@ export default function MobileMenu({ user, closeMenu }) {
                     Financeiro
                 </ResponsiveNavLink>
             </div>
-            {/* Botão para fechar o menu */}
+            <div className="p-2 text-right border-t">
+                <button onClick={closeMenu} className="text-sm text-brand-600">
+                    Fechar
+                </button>
+            </div>
         </div>
     );
 }

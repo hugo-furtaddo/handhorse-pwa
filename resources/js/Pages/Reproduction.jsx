@@ -66,7 +66,7 @@ export default function Reproduction({ animals, reproductions }) {
     ];
 
     return (
-        <AuthenticatedLayout header={<h2 className="text-xl font-semibold leading-tight text-gray-800"></h2>} >
+        <AuthenticatedLayout>
             <Head title="Reprodução" />
             <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
 
