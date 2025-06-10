@@ -9,15 +9,9 @@ export default function Show({ animal, treatments = [], reproductionActivities =
     const [showAwards, setShowAwards] = useState(false);
 
     return (
-        <AuthenticatedLayout
-            header={
-                <header className="flex flex-col items-center justify-center p-4 border-b border-gray-100 bg-white">
-                    <h2 className="text-xl font-semibold text-gray-800">Detalhes do Animal</h2>
-                </header>
-            }
-        >
+        <AuthenticatedLayout>
             <Head title={animal.name} />
-            <main className="flex-1 mt-1 mb-16 bg-gray-100 overflow-y-auto">
+            <main className="flex-1 mt-2 mb-16 overflow-y-auto">
                 <div className="max-w-md mx-auto p-4 bg-white shadow rounded space-y-6">
                     <h1 className="text-3xl font-bold text-center">{animal.name}</h1>
                     <div className="space-y-2 text-sm">

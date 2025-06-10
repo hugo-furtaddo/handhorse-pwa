@@ -1,8 +1,9 @@
 import React from 'react';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import FinanceChart from '@/Components/FinanceChart';
 
-export default function Finance({ entries }) {
+export default function Finance({ entries, chart }) {
     const { flash = {} } = usePage().props;
     const { data, setData, post, processing, errors, reset } = useForm({
         type: 'custo',
@@ -20,7 +21,7 @@ export default function Finance({ entries }) {
     };
 
     return (
-        <AuthenticatedLayout header={<h2 className="text-xl font-semibold">Financeiro</h2>}>
+        <AuthenticatedLayout>
             <Head title="Financeiro" />
             <main className="p-4 space-y-4">
                 {flash.success && (
@@ -31,7 +32,7 @@ export default function Finance({ entries }) {
                 <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow space-y-4">
                     <div>
                         <label className="block">Tipo</label>
-                        <select value={data.type} onChange={e => setData('type', e.target.value)} className="mt-1 w-full border rounded p-2">
+                        <select value={data.type} onChange={e => setData('type', e.target.value)} className="mt-1 w-full border rounded p-2 focus:ring-brand-500">
                             <option value="custo">Custo</option>
                             <option value="receita">Receita</option>
                         </select>
@@ -39,17 +40,17 @@ export default function Finance({ entries }) {
                     </div>
                     <div>
                         <label className="block">Descrição</label>
-                        <input type="text" value={data.descricao} onChange={e => setData('descricao', e.target.value)} className="mt-1 w-full border rounded p-2" />
+                        <input type="text" value={data.descricao} onChange={e => setData('descricao', e.target.value)} className="mt-1 w-full border rounded p-2 focus:ring-brand-500" />
                         {errors.descricao && <div className="text-red-500 text-sm">{errors.descricao}</div>}
                     </div>
                     <div>
                         <label className="block">Valor</label>
-                        <input type="number" step="0.01" value={data.valor} onChange={e => setData('valor', e.target.value)} className="mt-1 w-full border rounded p-2" />
+                        <input type="number" step="0.01" value={data.valor} onChange={e => setData('valor', e.target.value)} className="mt-1 w-full border rounded p-2 focus:ring-brand-500" />
                         {errors.valor && <div className="text-red-500 text-sm">{errors.valor}</div>}
                     </div>
                     <div>
                         <label className="block">Data</label>
-                        <input type="date" value={data.data} onChange={e => setData('data', e.target.value)} className="mt-1 w-full border rounded p-2" />
+                        <input type="date" value={data.data} onChange={e => setData('data', e.target.value)} className="mt-1 w-full border rounded p-2 focus:ring-brand-500" />
                         {errors.data && <div className="text-red-500 text-sm">{errors.data}</div>}
                     </div>
                     <button type="submit" disabled={processing} className="bg-brand-600 text-white px-4 py-2 rounded">Salvar</button>
@@ -82,6 +83,7 @@ export default function Finance({ entries }) {
                         <p>Nenhum registro cadastrado.</p>
                     )}
                 </div>
+                <FinanceChart data={chart} />
             </main>
         </AuthenticatedLayout>
     );

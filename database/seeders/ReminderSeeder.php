@@ -22,13 +22,15 @@ class ReminderSeeder extends Seeder
 
         foreach ($animals as $animal) {
             $breed = $animal->breed;
-            $deadline = $breed->association->deadlines->first();
-            if (! $deadline) {
+            $deadlines = $breed->association->deadlines;
+            if ($deadlines->isEmpty()) {
                 continue;
             }
 
-            foreach ([30, 15, 1] as $daysLeft) {
-                $user->notify(new AssociationReminder($breed, $deadline, $daysLeft, $animal->name));
+            foreach ($deadlines as $deadline) {
+                foreach ([30, 15, 1] as $daysLeft) {
+                    $user->notify(new AssociationReminder($breed, $deadline, $daysLeft, $animal->name));
+                }
             }
         }
     }

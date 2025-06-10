@@ -48,15 +48,9 @@ export default function Edit({ animal, breeds }) {
     };
 
     return (
-        <AuthenticatedLayout
-            header={
-                <header className="bg-white shadow fixed top-0 inset-x-0 z-50 p-4 border-b border-gray-100 flex items-center justify-center">
-                    <h2 className="text-xl font-semibold text-gray-400">Editar Animal</h2>
-                </header>
-            }
-        >
+        <AuthenticatedLayout>
             <Head title="Editar Animal" />
-            <div className="flex-1 pt-1 pb-6 bg-gray-0">
+            <div className="flex-1 pt-2 pb-6">
                 <div className="max-w-md mx-auto bg-white p-6 shadow rounded-lg">
                     <h1 className="text-2xl font-bold mb-6 text-center">Editar {animal.name}</h1>
                     <form onSubmit={submit} encType="multipart/form-data">
