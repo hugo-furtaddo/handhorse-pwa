@@ -18,12 +18,12 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             <div className="relative overflow-hidden bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
                 <img
                     id="background"
-                    className="absolute inset-0 -z-10 h-full w-full object-cover blur-lg"
+                    className="absolute inset-0 z-0 h-full w-full object-cover blur-lg"
                     src="/background.jpg"
                     alt="Background"
                     onError={handleImageError}
                 />
-                <div className="absolute inset-0 -z-10 bg-black/40"></div>
+                <div className="absolute inset-0 z-10 bg-black/40"></div>
                 <div className="relative flex min-h-screen flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
                     <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                         <header className="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
