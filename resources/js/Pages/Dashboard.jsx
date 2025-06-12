@@ -44,8 +44,8 @@ export default function Dashboard() {
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard" />
-            <div className="min-h-screen flex flex-col items-center justify-center p-6 space-y-6">
-                <img src="/handhorse.png" alt="Handhorse Logo" className="h-20" />
+            <div className="min-h-screen flex flex-col items-center justify p-6 space-y-2">
+                <img src="/handhorse.png" alt="Handhorse Logo" className="h-21" />
                 <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                     <OptionCard href={route('animals.create')} icon={PlusCircleIcon}>
                         Cadastrar Animal
