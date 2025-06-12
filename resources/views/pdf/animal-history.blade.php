@@ -128,7 +128,7 @@
                         <td>
                             @if(is_array($t->details) && isset($t->details['photo']))
                                 @php
-                                    $photoPath = public_path('storage/' . $t->details['photo']);
+                                    $photoPath = storage_path('app/public/' . $t->details['photo']);
                                     $isWebp = file_exists($photoPath) && mime_content_type($photoPath) === 'image/webp';
                                 @endphp
 
