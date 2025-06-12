@@ -1,22 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <style>
-        body { font-family: DejaVu Sans, sans-serif; color: #333; font-size: 12px; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .photos { text-align: center; margin-bottom: 20px; }
-        .photos img { width: 120px; height: 120px; object-fit: cover; border-radius: 6px; margin: 0 4px 8px; }
-        .section { margin-bottom: 20px; }
-        .section h2 { background: #f0f0f0; padding: 5px; border-radius: 4px; margin-bottom: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th, td { border: 1px solid #ccc; padding: 6px; }
-        th { background: #fafafa; }
-        tbody tr:nth-child(even) { background: #f9f9f9; }
+        body {
+            font-family: DejaVu Sans, sans-serif;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 8px;
+        }
+
+        .photos {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .photos img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 0 4px 8px;
+        }
+
+        .treatment-photo {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            background: #3b82f6;
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 6px;
+        }
+
+        th {
+            background: #1e3a8a;
+            color: #fff;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
     </style>
 </head>
+
 <body>
     <div class="header">
+        <img src="{{ public_path('handhorse.png') }}" alt="Handhorse" class="logo">
         <h1>Histórico de {{ $animal->name }}</h1>
     </div>
 
@@ -49,6 +111,7 @@
                     <th>Tipo</th>
                     <th>Data</th>
                     <th>Detalhes</th>
+                    <th>Foto</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,9 +125,25 @@
                                 @if(isset($t->details['procedimento'])){{ $t->details['procedimento'] }}<br>@endif
                             @endif
                         </td>
+                        <td>
+                            @if(is_array($t->details) && isset($t->details['photo']))
+                                @php
+                                    $photoPath = public_path('storage/' . $t->details['photo']);
+                                    $isWebp = file_exists($photoPath) && mime_content_type($photoPath) === 'image/webp';
+                                @endphp
+
+                                @if(!$isWebp)
+                                    <img src="{{ $photoPath }}" alt="Vacina" class="treatment-photo">
+                                @else
+                                    <span style="color: red; font-size: 10px;">(Imagem .webp não suportada no PDF)</span>
+                                @endif
+                            @endif
+                        </td>
                     </tr>
                 @empty
-                    <tr><td colspan="3">Nenhum procedimento registrado.</td></tr>
+                    <tr>
+                        <td colspan="4">Nenhum procedimento registrado.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
@@ -87,16 +166,24 @@
                         <td>{{ $rep->date?->format('d/m/Y') ?? $rep->date_exame?->format('d/m/Y') }}</td>
                         <td>
                             @if($rep->type === 'monta_natural' || $rep->type === 'inseminacao')
-                                Égua: {{ $rep->egua->name ?? $rep->egua_name }} - Cavalo: {{ $rep->cavalo->name ?? $rep->cavalo_name }}
+                                Égua: {{ $rep->egua->name ?? $rep->egua_name }} - Cavalo:
+                                {{ $rep->cavalo->name ?? $rep->cavalo_name }}
                             @elseif($rep->type === 'transferencia')
-                                Doadora: {{ $rep->doadora->name ?? $rep->doadora_name }} - Receptor: {{ $rep->receptor->name ?? $rep->receptor_name }} - Cavalo: {{ $rep->cavalo->name ?? $rep->cavalo_name }}
+                                Doadora: {{ $rep->doadora->name ?? $rep->doadora_name }} - Receptor:
+                                {{ $rep->receptor->name ?? $rep->receptor_name }} - Cavalo:
+                                {{ $rep->cavalo->name ?? $rep->cavalo_name }}
                             @elseif($rep->type === 'confirmacao_prenhes')
-                                Animal: {{ $rep->animal->name ?? $rep->animal_name }} - Pai: {{ $rep->pai->name ?? $rep->pai_name }} - Data Exame: {{ optional($rep->date_exame)->format('d/m/Y') }} - Data Provável: {{ optional($rep->date_provavel)->format('d/m/Y') }}
+                                Animal: {{ $rep->animal->name ?? $rep->animal_name }} - Pai:
+                                {{ $rep->pai->name ?? $rep->pai_name }} - Data Exame:
+                                {{ optional($rep->date_exame)->format('d/m/Y') }} - Data Provável:
+                                {{ optional($rep->date_provavel)->format('d/m/Y') }}
                             @endif
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="3">Nenhuma reprodução registrada.</td></tr>
+                    <tr>
+                        <td colspan="3">Nenhuma reprodução registrada.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
@@ -120,10 +207,13 @@
                         <td>{{ optional($award->date)->format('d/m/Y') }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="3">Nenhuma premiação registrada.</td></tr>
+                    <tr>
+                        <td colspan="3">Nenhuma premiação registrada.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 </body>
+
 </html>

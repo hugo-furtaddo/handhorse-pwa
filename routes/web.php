@@ -26,6 +26,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+
 // Dashboard: exibe o carrossel de animais cadastrados pelo usuário autenticado
 Route::get('/dashboard', function () {
     $userId = auth()->id();
