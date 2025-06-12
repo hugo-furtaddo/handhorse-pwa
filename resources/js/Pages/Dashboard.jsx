@@ -9,6 +9,22 @@ const PlusCircleIcon = (props) => (
     </svg>
 );
 
+const HorseIcon = (props) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        {...props}
+    >
+        <path d="M7 10l-.85 8.507a1.357 1.357 0 0 0 1.35 1.493h.146a2 2 0 0 0 1.857-1.257l.994-2.486a2 2 0 0 1 1.857-1.257h1.292a2 2 0 0 1 1.857 1.257l.994 2.486a2 2 0 0 0 1.857 1.257h.146a1.37 1.37 0 0 0 1.364-1.494l-.864-9.506h-8c0-3-3-5-6-5l-3 6l2 2l3-2z" />
+        <path d="M22 14v-2a3 3 0 0 0-3-3" />
+    </svg>
+);
+
 const HeartIcon = (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
         <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
@@ -49,6 +65,9 @@ export default function Dashboard() {
                 <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                     <OptionCard href={route('animals.create')} icon={PlusCircleIcon}>
                         Cadastrar Animal
+                    </OptionCard>
+                    <OptionCard href={route('animals.index')} icon={HorseIcon}>
+                        Meus Animais
                     </OptionCard>
                     <OptionCard href={route('animal-health')} icon={HeartIcon}>
                         Saúde Animal
