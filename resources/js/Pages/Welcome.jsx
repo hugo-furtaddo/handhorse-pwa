@@ -19,7 +19,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                 <img
                     id="background"
                     className="absolute inset-0 -z-10 h-full w-full object-cover blur-lg"
-                    src="public\background.jpg"
+                    src="/background.jpg"
                     alt="Background"
                     onError={handleImageError}
                 />
