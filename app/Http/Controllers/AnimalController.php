@@ -9,7 +9,6 @@ use App\Models\Reproduction;
 use App\Models\Award;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class AnimalController extends Controller
 {
@@ -21,18 +20,14 @@ class AnimalController extends Controller
             ->where('user_id', $user->id)
             ->get();
 
-        return Inertia::render('Animals/Index', [
-            'animals' => $animals,
-        ]);
+        return response()->json(['animals' => $animals]);
     }
 
     // Exibe o formulário de cadastro
     public function create()
     {
         $breeds = Breed::all();
-        return Inertia::render('Animals/Create', [
-            'breeds' => $breeds,
-        ]);
+        return response()->json(['breeds' => $breeds]);
     }
 
     // Armazena os dados do novo animal
@@ -61,7 +56,7 @@ class AnimalController extends Controller
 
         $animal = Animal::create($data);
 
-        return redirect()->route('animals.show', $animal);
+        return response()->json($animal, 201);
     }
 
     // Exibe os detalhes de um animal específico
@@ -86,7 +81,7 @@ class AnimalController extends Controller
         $treatments = Treatment::with('treatmentType')->where('animal_id', $animal->id)->get();
         $awards = Award::where('animal_id', $animal->id)->orderByDesc('date')->get();
 
-        return Inertia::render('Animals/Show', [
+        return response()->json([
             'animal' => $animal,
             'treatments' => $treatments,
             'reproductionActivities' => $reproductionActivities,
@@ -100,7 +95,7 @@ class AnimalController extends Controller
 
         $breeds = Breed::all();
 
-        return Inertia::render('Animals/Edit', [
+        return response()->json([
             'animal' => $animal,
             'breeds' => $breeds,
         ]);
@@ -133,7 +128,7 @@ class AnimalController extends Controller
 
         $animal->update($data);
 
-        return redirect()->route('animals.show', $animal);
+        return response()->json($animal);
     }
 
     public function history(Animal $animal)

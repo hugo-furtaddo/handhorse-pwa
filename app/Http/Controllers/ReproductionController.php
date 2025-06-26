@@ -6,7 +6,6 @@ use App\Models\Animal;
 use App\Models\Reproduction;
 use App\Jobs\SendAssociationReminder;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class ReproductionController extends Controller
 {
@@ -23,7 +22,7 @@ class ReproductionController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        return Inertia::render('Reproduction', [
+        return response()->json([
             'animals' => $animals,
             'reproductions' => $reproductions
         ]);
@@ -102,7 +101,7 @@ class ReproductionController extends Controller
                 break;
 
             default:
-                return redirect()->back()->withErrors(['type' => 'Tipo de reprodução inválido.']);
+                return response()->json(['message' => 'Tipo de reprodução inválido.'], 422);
         }
 
         $reproduction = Reproduction::create($data);
@@ -132,6 +131,6 @@ class ReproductionController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Reprodução cadastrada com sucesso!');
+        return response()->json($reproduction, 201);
     }
 }

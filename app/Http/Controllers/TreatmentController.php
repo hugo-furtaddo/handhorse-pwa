@@ -6,7 +6,6 @@ use App\Models\Animal;
 use App\Models\Treatment;
 use App\Models\TreatmentType;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class TreatmentController extends Controller
 {
@@ -19,7 +18,7 @@ class TreatmentController extends Controller
             ->where('user_id', $user->id)
             ->get();
 
-        return Inertia::render('AnimalHealth', [
+        return response()->json([
             'treatmentTypes' => $treatmentTypes,
             'animals' => $animals,
             'treatments' => $treatments,
@@ -88,10 +87,10 @@ class TreatmentController extends Controller
                 // Sem campos extras.
                 break;
             default:
-                return redirect()->back()->withErrors(['treatment_type_id' => 'Tipo de tratamento inválido.']);
+                return response()->json(['message' => 'Tipo de tratamento inválido.'], 422);
         }
 
-        Treatment::create([
+        $treatment = Treatment::create([
             'user_id' => $request->user()->id,
             'animal_id' => $validated['animal_id'],
             'treatment_type_id' => $validated['treatment_type_id'],
@@ -99,6 +98,6 @@ class TreatmentController extends Controller
             'details' => $details,
         ]);
 
-        return redirect()->back()->with('success', 'Tratamento cadastrado com sucesso.');
+        return response()->json($treatment, 201);
     }
 }
