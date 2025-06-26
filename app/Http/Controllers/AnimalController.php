@@ -154,12 +154,22 @@ class AnimalController extends Controller
             })
             ->get();
 
-        $treatments = Treatment::with('treatmentType')->where('animal_id', $animal->id)->get();
+        $vaccines = Treatment::with('treatmentType')
+            ->where('animal_id', $animal->id)
+            ->whereHas('treatmentType', fn($q) => $q->where('name', 'Vacina'))
+            ->get();
+
+        $treatments = Treatment::with('treatmentType')
+            ->where('animal_id', $animal->id)
+            ->whereHas('treatmentType', fn($q) => $q->where('name', '!=', 'Vacina'))
+            ->get();
+
         $awards = Award::where('animal_id', $animal->id)->orderByDesc('date')->get();
 
         $pdf = Pdf::loadView('pdf.animal-history', [
             'animal' => $animal,
             'treatments' => $treatments,
+            'vaccines' => $vaccines,
             'reproductions' => $reproductions,
             'awards' => $awards,
         ]);

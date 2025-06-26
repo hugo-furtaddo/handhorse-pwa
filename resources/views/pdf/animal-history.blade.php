@@ -103,6 +103,39 @@
         <p><strong>Prole:</strong> {{ $animal->progeny }}</p>
     </div>
 
+    {{-- NOVA SEÇÃO DE VACINAS --}}
+    <div class="section">
+        <h2>Vacinas</h2>
+        @forelse($vaccines as $vac)
+            <div style="margin-bottom: 12px; display: flex; align-items: center; flex-wrap: wrap;">
+                <div style="flex:1;">
+                    <strong>Data:</strong> {{ optional($vac->date)->format('d/m/Y') }}<br>
+                    <strong>Tipo:</strong>
+                    @if(is_array($vac->details) && isset($vac->details['type']))
+                        {{ $vac->details['type'] }}
+                    @else
+                        {{ $vac->treatmentType->name ?? '' }}
+                    @endif
+                </div>
+                @if(is_array($vac->details) && isset($vac->details['photo']))
+                    @php
+                        $photoPath = public_path('storage/' . $vac->details['photo']);
+                        $isWebp = file_exists($photoPath) && mime_content_type($photoPath) === 'image/webp';
+                    @endphp
+                    <div style="margin-left: 16px;">
+                        @if(!$isWebp)
+                            <img src="{{ $photoPath }}" alt="Vacina" class="treatment-photo">
+                        @else
+                            <span style="color: red; font-size: 10px;">(Imagem .webp não suportada no PDF)</span>
+                        @endif
+                    </div>
+                @endif
+            </div>
+        @empty
+            <p>Nenhuma vacina registrada.</p>
+        @endforelse
+    </div>
+
     <div class="section">
         <h2>Procedimentos de Saúde</h2>
         <table>
