@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Award;
 use App\Models\Animal;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class AwardController extends Controller
 {
@@ -20,8 +19,8 @@ class AwardController extends Controller
         ]);
 
         $data['animal_id'] = $animal->id;
-        Award::create($data);
+        $award = Award::create($data);
 
-        return redirect()->route('animals.show', $animal);
+        return response()->json($award, 201);
     }
 }

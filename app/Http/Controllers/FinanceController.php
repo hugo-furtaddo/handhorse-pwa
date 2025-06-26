@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\FinanceEntry;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class FinanceController extends Controller
 {
@@ -21,7 +20,7 @@ class FinanceController extends Controller
                 'receita' => $group->where('type', 'receita')->sum('valor'),
             ]);
 
-        return Inertia::render('Finance', [
+        return response()->json([
             'entries' => $entries,
             'chart'   => $chart,
         ]);
@@ -37,8 +36,8 @@ class FinanceController extends Controller
         ]);
 
         $data['user_id'] = $request->user()->id;
-        FinanceEntry::create($data);
+        $entry = FinanceEntry::create($data);
 
-        return redirect()->back()->with('success', 'Registro salvo com sucesso.');
+        return response()->json($entry, 201);
     }
 }
